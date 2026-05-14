@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حجز موعد — صالون الجمال</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="top-fixed-bar" role="navigation" aria-label="اختصارات">
+    <a href="admin.html" class="top-fixed-bar__admin btn btn-gold btn-sm" data-i18n="top.admin">لوحة الإدارة</a>
+    <div class="top-fixed-bar__lang">
+      <button type="button" class="lang-btn lang-btn--active" data-set-lang="ar">عربي</button>
+      <button type="button" class="lang-btn" data-set-lang="en">EN</button>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container inner">
+      <a href="index.html" class="brand">
+        <span class="brand-icon" aria-hidden="true">💇‍♀️</span>
+        <span class="brand-text">
+          <span class="brand-name" data-i18n="brand.name">صالون الجمال</span>
+          <span class="brand-tag" data-i18n="brand.tagBooking">حجز موعد</span>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" data-i18n="nav.home">الرئيسية</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="booking-layout container">
+    <div class="page-hero">
+      <h1 data-i18n="booking.heroTitle">احجزي موعدكِ</h1>
+      <p data-i18n="booking.heroSub">خطوات بسيطة — اختاري الخدمة، الموظفة، الوقت، وتفضيلات التذكير.</p>
+    </div>
+
+    <div id="data-mode-banner" class="banner banner-info" role="status"></div>
+    <div id="form-error" class="banner banner-error hidden" role="alert"></div>
+
+    <div id="steps-indicator" class="steps-indicator"></div>
+
+    <form id="booking-form" class="form-panel" onsubmit="return false;">
+      <div id="step-panel-0">
+        <h2 class="section-title" style="text-align:start;margin-bottom:1.25rem"><span style="font-size:1.1rem" data-i18n="booking.panel0">١ — بياناتك</span></h2>
+        <div class="form-group">
+          <label for="customer-name" data-i18n="booking.label.name">الاسم</label>
+          <input id="customer-name" type="text" autocomplete="name" required data-i18n-placeholder="booking.ph.name" placeholder="مثال: سارة" />
+        </div>
+        <div class="form-group">
+          <label for="customer-phone" data-i18n="booking.label.phone">رقم الهاتف</label>
+          <input id="customer-phone" type="tel" autocomplete="tel" required data-i18n-placeholder="booking.ph.phone" placeholder="05xxxxxxxx" />
+        </div>
+      </div>
+
+      <div id="step-panel-1" class="hidden">
+        <h2 class="section-title" style="text-align:start;margin-bottom:1.25rem"><span style="font-size:1.1rem" data-i18n="booking.panel1">٢ — الخدمة</span></h2>
+        <div id="service-picker" class="service-picker"></div>
+      </div>
+
+      <div id="step-panel-2" class="hidden">
+        <h2 class="section-title" style="text-align:start;margin-bottom:1.25rem"><span style="font-size:1.1rem" data-i18n="booking.panel2">٣ — اختيار الموظفة</span></h2>
+        <p class="meta" style="margin-top:0" data-i18n="booking.panel2sub">اخترِ من تنفّذ الخدمة — كل فردة فريقنا بخبرة مختلفة.</p>
+        <div id="staff-grid" class="staff-grid"></div>
+      </div>
+
+      <div id="step-panel-3" class="hidden">
+        <h2 class="section-title" style="text-align:start;margin-bottom:1.25rem"><span style="font-size:1.1rem" data-i18n="booking.panel3">٤ — التاريخ والوقت</span></h2>
+        <div class="form-group">
+          <label data-i18n="booking.label.date">التاريخ</label>
+          <div class="calendar-wrap">
+            <div class="calendar-header">
+              <button type="button" id="cal-prev" data-i18n-aria="booking.cal.prev" aria-label="">‹</button>
+              <h3 id="calendar-month-title"></h3>
+              <button type="button" id="cal-next" data-i18n-aria="booking.cal.next" aria-label="">›</button>
+            </div>
+            <div class="calendar-weekdays">
+              <span data-i18n="cal.0">أحد</span><span data-i18n="cal.1">اثنين</span><span data-i18n="cal.2">ثلاثاء</span><span data-i18n="cal.3">أربعاء</span><span data-i18n="cal.4">خميس</span><span data-i18n="cal.5">جمعة</span><span data-i18n="cal.6">سبت</span>
+            </div>
+            <div id="calendar-days" class="calendar-days"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="booking.label.time">الوقت</label>
+          <div id="slots-grid" class="slots-grid"></div>
+          <p class="meta" style="margin-top:0.75rem" data-i18n="booking.slotsHint">الأوقات الرمادية محجوزة مسبقاً لنفس الموظفة.</p>
+        </div>
+      </div>
+
+      <div id="step-panel-4" class="hidden">
+        <h2 class="section-title" style="text-align:start;margin-bottom:1.25rem"><span style="font-size:1.1rem" data-i18n="booking.panel4">٥ — التذكير</span></h2>
+        <p class="meta" style="margin-top:0" data-i18n="booking.reminderIntro">اختاري متى تصلكِ إشعارات التذكير (يُحفظ مع الحجز). لاحقاً يمكن ربط واتساب أو SMS عبر API.</p>
+        <div class="reminder-options">
+          <label class="reminder-option"><input type="checkbox" name="reminder" value="1440" /><span data-i18n="booking.rem24"></span></label>
+          <label class="reminder-option"><input type="checkbox" name="reminder" value="720" /><span data-i18n="booking.rem12"></span></label>
+          <label class="reminder-option"><input type="checkbox" name="reminder" value="60" /><span data-i18n="booking.rem60"></span></label>
+          <label class="reminder-option"><input type="checkbox" name="reminder" value="30" /><span data-i18n="booking.rem30"></span></label>
+        </div>
+        <div class="form-group" style="margin-top:1rem">
+          <label for="reminder-custom-minutes" data-i18n="booking.remCustom">تذكير مخصص (بالدقائق قبل الموعد)</label>
+          <div class="custom-reminder-row">
+            <input id="reminder-custom-minutes" type="number" min="5" max="10080" step="5" data-i18n-placeholder="booking.remPh" placeholder="مثال: 180" />
+            <span class="meta" data-i18n="booking.remCustomHint">اتركيها فارغة إن لم ترغبي بوقت إضافي</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="form-nav" class="form-actions">
+        <button type="button" class="btn btn-outline" data-action="prev" data-i18n="booking.prev">السابق</button>
+        <button type="button" class="btn btn-primary" data-action="next" data-i18n="booking.next">التالي</button>
+      </div>
+    </form>
+
+    <section id="confirmation-screen" class="form-panel confirm-screen hidden" aria-live="polite">
+      <div class="icon-success" aria-hidden="true">✨</div>
+      <h2 data-i18n="booking.conf.title">تم تأكيد حجزك بنجاح</h2>
+      <div class="confirm-details">
+        <dl>
+          <dt data-i18n="booking.conf.name">الاسم</dt>
+          <dd id="conf-name">—</dd>
+          <dt data-i18n="booking.conf.service">الخدمة</dt>
+          <dd id="conf-service">—</dd>
+          <dt data-i18n="booking.conf.staff">الموظفة</dt>
+          <dd id="conf-staff">—</dd>
+          <dt data-i18n="booking.conf.date">التاريخ</dt>
+          <dd id="conf-date">—</dd>
+          <dt data-i18n="booking.conf.time">الوقت</dt>
+          <dd id="conf-time">—</dd>
+        </dl>
+      </div>
+      <p class="confirm-msg" data-i18n="booking.conf.msg">ننتظركِ في موعدكِ، استعدي لتجربة فاخرة ✨</p>
+      <a href="index.html" class="btn btn-gold" data-i18n="booking.conf.home">العودة للرئيسية</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><p data-i18n="footer.mini">صالون الجمال</p></div>
+  </footer>
+
+  <script type="module" src="js/booking.js"></script>
+</body>
+</html>
